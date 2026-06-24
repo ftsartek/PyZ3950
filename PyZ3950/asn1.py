@@ -123,7 +123,6 @@ from __future__ import print_function, absolute_import
 vers = "0.83"
 
 import array
-import string
 import copy
 import math
 
@@ -253,8 +252,8 @@ class StructBase(object):
         i = list(self.__dict__.items ())
         i.sort ()
         i = [it for it in i if it[0][0] != '_']
-        s = s + string.join ([repr (it[0]) +
-                                  ' ' + repr (it[1]) for it in i], '\n')
+        s = s + '\n'.join ([repr (it[0]) +
+                                  ' ' + repr (it[1]) for it in i])
         s = s + ']\n'
         return s
     def __eq__(self, other):
@@ -1182,7 +1181,7 @@ class CHOICE:
                 return (cname, ctyp)
         return 0
     def __repr__ (self):
-        return 'CHOICE: ' + string.join ([x[0] for x in self.choice], '\n')
+        return 'CHOICE: ' + '\n'.join ([x[0] for x in self.choice])
     # Note: we don't include types in the repr, because that can induce
     # infinite recursion.
     def encode (self, ctx, val):
@@ -1450,7 +1449,7 @@ class SEQUENCE_BASE (ELTBASE):
         return (name, typ, optional)
     def __repr__ (self):
         return  ('SEQUENCE: ' + repr (self.klass) +
-                 '\n' + string.join (list(map (repr, self.seq)), '\n'))
+                 '\n' + '\n'.join (list(map (repr, self.seq))))
     def __getitem__ (self, key):
         for e in self.seq:
             if e[0] == key:
@@ -1544,7 +1543,7 @@ class EXTERNAL_class (SEQUENCE_BASE):
     tag = (CONS_FLAG, EXTERNAL_TAG)
     def __repr__ (self):
         return  ('EXTERNAL: ' + repr (self.klass) +
-                 '\n' + string.join (list(map (repr, self.seq)), '\n'))
+                 '\n' + '\n'.join (list(map (repr, self.seq))))
     class ConsElt(SeqConsElt):
         def __init__ (self, seq, ctx):
             self.ctx = ctx

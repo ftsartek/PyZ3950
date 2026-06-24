@@ -7,4 +7,5 @@
 /.tox/
 upload.tar
 /build/
+*.egg-info/
 PyZ3950/PyZ3950_parsetab.py
