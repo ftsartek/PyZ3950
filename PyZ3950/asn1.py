@@ -350,8 +350,8 @@ class CtxBase:
         self.codec_dict_stack[-1][defn_inst.base_tag] = (codec, strip_bom)
     def get_codec (self, base_tag):
         def default_enc (x):
-            if isinstance (x, str):
-                return (x.encode ('ascii'), 0)
+            if isinstance (x, bytes):
+                return (x, 0)
             elif isinstance (x, str):
                 return (x.encode ('utf-8'), 0)
             return (x, 0)
@@ -1246,7 +1246,12 @@ class ANY_class(OCTSTRING_class): # inherit decode_val
             buf_len = len (buf)
             return tostr (tag_to_buf (tag)) + tostr (len_to_buf (buf_len)) +buf
     def encode (self, ctx, val):
-        ctx.bytes_write (self.encode_aux(val))
+        data = self.encode_aux (val)
+        if isinstance (data, str):
+            # encode_aux builds its result one char per byte via chr();
+            # latin-1 maps each char back to the exact byte bytes_write expects.
+            data = data.encode ('latin-1')
+        ctx.bytes_write (data)
     def check_tag (self, seen_tag):
         return 1
     def decode_val (self, ctx,  buf):

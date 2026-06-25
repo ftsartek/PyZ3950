@@ -33,6 +33,7 @@ trace_charset = 0
 
 impl_vers = "1.0 beta" # XXX
 implementationId = 'PyZ39.50 - contact asl2@pobox.com' # haven't been assigned an official id, apply XXX
+impl_id = implementationId # default for make_initreq when none supplied
 
 def make_attr(set=None, atype=None, val=None, valType=None):
     ae = AttributeElement()
